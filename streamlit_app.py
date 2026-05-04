@@ -1,9 +1,7 @@
 import streamlit as st
 
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+st.title("Sciences Cognitives & Criminologie")
+
 import streamlit as st
 
 # ── PAGE CONFIG ──────────────────────────────────────────────────────────────
@@ -233,7 +231,7 @@ SCENARIOS = [
         ],
         "answer": "ment",
         "answer_label": "Il ment",
-        "explanation": "Marc présente plusieurs signaux cognitifs classiques du mensonge : il sur-spécifie puis se rétracte ('Netflix je crois… oui c'était Netflix'), échoue à fournir des détails concrets sur une activité censément normale, et utilise la formule 'Pourquoi je mentirais ?' — une stratégie rhétorique typique du menteur pour détourner l'attention (DePaulo et al., 2003).\n\nNotez aussi qu'il ne fuit PAS le regard et que sa voix est stable — deux stéréotypes souvent utilisés à tort comme indices de mensonge. La recherche montre que ces signaux ne sont pas fiables (Bond & DePaulo, 2006).",
+        "explanation": "Marc présente plusieurs signaux cognitifs classiques du mensonge : il sur-spécifie puis se rétracte ('Netflix je crois… oui c'était Netflix'), échoue à fournir des détails concrets sur une activité censément normale, et utilise la formule 'Pourquoi je mentirais ?': une stratégie rhétorique typique du menteur pour détourner l'attention (DePaulo et al., 2003).\n\nNotez aussi qu'il ne fuit PAS le regard et que sa voix est stable, deux stéréotypes souvent utilisés à tort comme indices de mensonge. La recherche montre que ces signaux ne sont pas fiables (Bond & DePaulo, 2006).",
         "science_concept": "Le menteur sur-contrôle certains canaux (regard, voix) mais laisse filtrer des incohérences dans le contenu verbal — c'est le principe du 'leakage' cognitif.",
         "stereotype_trap": "Regard direct et voix stable ≠ vérité. Ces indices ne sont pas corrélés avec la tromperie.",
         "ref": "DePaulo et al. (2003) · Bond & DePaulo (2006) · Ekman & Friesen",
@@ -261,9 +259,9 @@ SCENARIOS = [
         ],
         "answer": "vrai",
         "answer_label": "Elle dit la vérité",
-        "explanation": "Sandra présente un profil de véracité : elle fournit un alibi détaillé avec des témoins nommés et vérifiables, elle répond directement aux questions sans évasion, et sa mention de Thomas est accompagnée d'une modération spontanée qui indique une pensée sociale complexe — pas une stratégie de diversion.\n\nSon agitation (parle vite, joue avec un stylo) est souvent interprétée comme un signe de mensonge. C'est un stéréotype faux : le stress d'un innocent interrogé peut produire exactement ces comportements (Vrij, 2008).",
+        "explanation": "Sandra présente un profil de véracité : elle fournit un alibi détaillé avec des témoins nommés et vérifiables, elle répond directement aux questions sans évasion, et sa mention de Thomas est accompagnée d'une modération spontanée qui indique une pensée sociale complexe, pas une stratégie de diversion.\n\nSon agitation (parle vite, joue avec un stylo) est souvent interprétée comme un signe de mensonge. C'est un stéréotype faux : le stress d'un innocent interrogé peut produire exactement ces comportements (Vrij, 2008).",
         "science_concept": "Un récit vrai est généralement riche en détails contextuels, ancrés dans la mémoire épisodique. Un récit inventé tend à être vague ou sur-simplifié.",
-        "stereotype_trap": "Nervosité et agitation = stéréotype du menteur. Un innocent interrogé peut être tout aussi agité — voire plus.",
+        "stereotype_trap": "Nervosité et agitation = stéréotype du menteur. Un innocent interrogé peut être tout aussi agité, voire plus.",
         "ref": "Vrij (2008) · Zuckerman et al. (1981) · DePaulo et al. (2003)",
     },
     {
@@ -275,7 +273,7 @@ SCENARIOS = [
             ("Karim", "La voiture est arrivée à toute vitesse, le feu était rouge, le conducteur n'a même pas freiné. C'est clair, net, précis."),
             ("Inspecteur", "À quelle distance étiez-vous ?"),
             ("Karim", "Pas loin. Enfin... de l'autre côté du carrefour. Mais je voyais très bien."),
-            ("Inspecteur", "Le conducteur — vous pouvez le décrire ?"),
+            ("Inspecteur", "Le conducteur, vous pouvez le décrire ?"),
             ("Karim", "Oui. Enfin non, j'ai pas vu son visage. Mais la voiture était rouge, j'en suis certain. Ou peut-être bordeaux."),
             ("Inspecteur", "Vous avez vu la couleur du feu ?"),
             ("Karim", "Oui, rouge. Enfin, je suppose que c'était rouge. Logiquement c'était rouge sinon l'accident aurait pas eu lieu, non ?"),
@@ -291,7 +289,7 @@ SCENARIOS = [
         ],
         "answer": "ment",
         "answer_label": "Il ment (ou déforme la réalité)",
-        "explanation": "Karim ne ment pas forcément de manière intentionnelle — mais son témoignage est construit plutôt que mémorisé. Il commence par une certitude totale ('clair, net, précis'), puis recule sur chaque détail concret : la distance, la couleur du véhicule, la couleur du feu. Le plus révélateur : il déduit la couleur du feu à partir de la logique de l'accident, pas d'une observation réelle.\n\nCe cas illustre la différence entre un récit mémorisé (riche en détails sensoriels cohérents) et un récit reconstruit (affirmations générales + détails qui s'effondrent sous pression).",
+        "explanation": "Karim ne ment pas forcément de manière intentionnelle, mais son témoignage est construit plutôt que mémorisé. Il commence par une certitude totale ('clair, net, précis'), puis recule sur chaque détail concret : la distance, la couleur du véhicule, la couleur du feu. Le plus révélateur : il déduit la couleur du feu à partir de la logique de l'accident, pas d'une observation réelle.\n\nCe cas illustre la différence entre un récit mémorisé (riche en détails sensoriels cohérents) et un récit reconstruit (affirmations générales + détails qui s'effondrent sous pression).",
         "science_concept": "La charge cognitive augmentée (questions précises) fait émerger les incohérences entre ce qu'on prétend avoir vu et ce qu'on a réellement mémorisé.",
         "stereotype_trap": "Confiance et assurance dans le ton ne signifient pas véracité. Parfois, les témoins les plus affirmatifs sont ceux dont le récit est le plus reconstruit.",
         "ref": "Vrij (2008) · Article 2015 · Hartwig & Bond (2011)",
@@ -304,7 +302,7 @@ SCENARIOS = [
             ("Inspecteur", "Racontez-moi ce qui s'est passé."),
             ("Inès", "C'était horrible. Il est arrivé par derrière, j'ai senti son souffle dans mon cou, ça sentait l'alcool. Il a attrapé mon bras et m'a dit de me taire."),
             ("Inspecteur", "Vous pouvez le décrire ?"),
-            ("Inès", "Grand, cheveux sombres, une veste grise — non, bleu marine. Il avait une cicatrice ici... *(montre sa joue gauche)*. J'essaie de me souvenir exactement mais j'étais tellement paniquée."),
+            ("Inès", "Grand, cheveux sombres, une veste grise ou non, bleu marine. Il avait une cicatrice ici... *(montre sa joue gauche)*. J'essaie de me souvenir exactement mais j'étais tellement paniquée."),
             ("Inspecteur", "Il y avait du monde autour ?"),
             ("Inès", "Oui, beaucoup de monde. Mais personne n'a réagi, c'est ça qui m'a choquée le plus, en fait."),
         ],
@@ -319,7 +317,7 @@ SCENARIOS = [
         ],
         "answer": "vrai",
         "answer_label": "Elle dit la vérité",
-        "explanation": "Le témoignage d'Inès présente les marqueurs classiques d'un récit véridique : richesse des détails sensoriels (souffle, odeur d'alcool, sensation physique), cohérence émotionnelle, et surtout une auto-correction spontanée sur la couleur de la veste — un signe fort de mémoire réelle plutôt que de récit construit.\n\nLes menteurs tendent à éviter les auto-corrections de peur de paraître peu crédibles. Un vrai souvenir, lui, évolue naturellement sous la pression de la récupération mémorielle.",
+        "explanation": "Le témoignage d'Inès présente les marqueurs classiques d'un récit véridique : richesse des détails sensoriels (souffle, odeur d'alcool, sensation physique), cohérence émotionnelle, et surtout une auto-correction spontanée sur la couleur de la veste, un signe fort de mémoire réelle plutôt que de récit construit.\n\nLes menteurs tendent à éviter les auto-corrections de peur de paraître peu crédibles. Un vrai souvenir, lui, évolue naturellement sous la pression de la récupération mémorielle.",
         "science_concept": "Les récits vrais contiennent plus de détails sensoriels non pertinents pour la narration (odeur, texture, sensation). Les récits inventés tendent à se concentrer sur les éléments 'importants' uniquement.",
         "stereotype_trap": "La voix qui tremble et les hésitations sont interprétées comme des signes de mensonge. En réalité, elles indiquent souvent une émotion authentique ou un effort de récupération mémorielle.",
         "ref": "DePaulo et al. (2003) · Vrij et al. (2007) · Duran et al. (2020)",
@@ -337,7 +335,7 @@ SCENARIOS = [
             ("David", "Je ne vois pas ce que vous voulez dire. Je pense que vous devriez vous concentrer sur les vrais problèmes de sécurité informatique plutôt que de m'interroger moi."),
         ],
         "clues_visible": [
-            "Réponse initiale hyper-formelle et suraffirmée",
+            "Réponse initiale hyper formelle et suraffirmée",
             "Réinterprète 'contacts' pour élargir la définition",
             "Contre-attaque en redirigeant l'attention",
         ],
@@ -347,7 +345,7 @@ SCENARIOS = [
         ],
         "answer": "ment",
         "answer_label": "Il ment",
-        "explanation": "David utilise trois stratégies classiques du menteur sophistiqué. D'abord la suraffirmation : 'jamais, au grand jamais' — les personnes sincères ont rarement besoin de telles formulations superlatives. Ensuite la réinterprétation sémantique : il redéfinit 'contacts' pour inclure une version anodine. Enfin la contre-attaque : il redirige l'interrogatoire pour esquiver.\n\nSon calme apparent et son regard assuré sont précisément ce qu'un menteur expérimenté produit intentionnellement — le 'sur-contrôle' du canal non verbal décrit par Ekman & Friesen.",
+        "explanation": "David utilise trois stratégies classiques du menteur sophistiqué. D'abord la suraffirmation : 'jamais, au grand jamais', les personnes sincères ont rarement besoin de telles formulations superlatives. Ensuite la réinterprétation sémantique : il redéfinit 'contacts' pour inclure une version anodine. Enfin la contre-attaque : il redirige l'interrogatoire pour esquiver.\n\nSon calme apparent et son regard assuré sont précisément ce qu'un menteur expérimenté produit intentionnellement, le 'sur-contrôle' du canal non verbal décrit par Ekman & Friesen.",
         "science_concept": "Les menteurs sophistiqués sur-contrôlent les canaux visibles (posture, regard) mais leur stratégie verbale révèle des patterns caractéristiques : suraffirmation, esquive sémantique, contre-attaque.",
         "stereotype_trap": "Calme et assurance = souvent interprétés comme signes de sincérité. Chez un menteur expérimenté, c'est exactement l'inverse : le calme est produit intentionnellement.",
         "ref": "Ekman & Friesen · Vrij (2008) · Meissner & Kassin (2002)",
@@ -565,7 +563,7 @@ def show_game():
 st.markdown("""
 <div style='text-align:center;padding:20px 0 10px;'>
     <div style='color:#cc0000;font-size:0.7rem;font-weight:700;text-transform:uppercase;
-                letter-spacing:3px;margin-bottom:8px;'>PSYCHOLOGIE COGNITIVE</div>
+                letter-spacing:3px;margin-bottom:8px;'>DHAOUI Nour</div>
     <h1 style='margin:0;font-size:2.2rem;'>Détecteur de Mensonge</h1>
     <div style='color:#555;font-size:0.85rem;margin-top:8px;font-style:italic;'>
         Vous jouez le rôle de l'inspecteur. Chaque décision révèle vos biais.
