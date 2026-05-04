@@ -493,14 +493,14 @@ def show_game():
         st.markdown("<div style='margin:28px 0 12px;color:#888;font-size:0.85rem;'>Votre verdict :</div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("✅  Cette personne dit la vérité", use_container_width=True):
+            if st.button(" Cette personne dit la vérité", use_container_width=True):
                 st.session_state.user_choice = "vrai"
                 st.session_state.answered = True
                 if "vrai" == s["answer"]:
                     st.session_state.score += 1
                 st.rerun()
         with col2:
-            if st.button("❌  Cette personne ment", use_container_width=True):
+            if st.button(" Cette personne ment", use_container_width=True):
                 st.session_state.user_choice = "ment"
                 st.session_state.answered = True
                 if "ment" == s["answer"]:
@@ -512,7 +512,7 @@ def show_game():
         correct = st.session_state.user_choice == s["answer"]
         verdict_class = "verdict-correct" if correct else "verdict-wrong"
         verdict_icon = "✅" if correct else "❌"
-        verdict_text = "Bonne détection !" if correct else "Raté — votre jugement a été biaisé."
+        verdict_text = "Bonne détection !" if correct else "Raté, votre jugement a été biaisé."
 
         st.markdown(f"""
         <div class='{verdict_class}'>
