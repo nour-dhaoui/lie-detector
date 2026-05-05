@@ -671,7 +671,7 @@ def phase4():
 st.markdown("""
 <div style='text-align:center;padding:24px 0 16px;'>
     <div style='color:#cc0000;font-size:0.68rem;font-weight:700;text-transform:uppercase;
-                letter-spacing:3px;margin-bottom:10px;'>Psychologie cognitive</div>
+                letter-spacing:3px;margin-bottom:10px;'>Dhaoui Nour</div>
     <h1 style='margin:0;'>Quel détecteur êtes-vous ?</h1>
     <div style='color:#444;font-size:0.85rem;margin-top:10px;font-style:italic;'>
         Trois phases pour mesurer votre personnalité, vos biais cognitifs et votre intelligence émotionnelle.
