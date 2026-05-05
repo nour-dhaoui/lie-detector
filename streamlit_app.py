@@ -1,579 +1,692 @@
 import streamlit as st
 
-st.title("Sciences Cognitives & Criminologie")
-
-import streamlit as st
-
-# ── PAGE CONFIG ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Détecteur de Mensonge",
-    page_icon="🔍",
+    page_title="Quel détecteur êtes-vous ?",
+    page_icon="",
     layout="centered"
 )
 
-# ── CUSTOM CSS ───────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
-  /* Global */
   html, body, [class*="css"] {
-      background-color: #0a0a0a;
-      color: #e8e8e8;
+      background-color: #080808;
+      color: #e0e0e0;
       font-family: 'Inter', sans-serif;
   }
-  .stApp { background-color: #0a0a0a; }
-
-  /* Hide default streamlit elements */
+  .stApp { background-color: #080808; }
   #MainMenu, footer, header { visibility: hidden; }
 
-  /* Titles */
-  h1 { font-family: 'Crimson Text', serif !important; color: #ffffff !important; font-size: 2.6rem !important; }
-  h2 { font-family: 'Crimson Text', serif !important; color: #cc0000 !important; }
-  h3 { color: #ffffff !important; font-size: 1.1rem !important; font-weight: 600 !important; }
-
-  /* Scenario card */
-  .scenario-card {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-left: 4px solid #cc0000;
-      border-radius: 6px;
-      padding: 24px 28px;
-      margin: 16px 0;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: #d0d0d0;
+  h1 {
+      font-family: 'Crimson Text', serif !important;
+      color: #ffffff !important;
+      font-size: 2.4rem !important;
+      font-weight: 600 !important;
   }
 
-  /* Dialogue bubble */
-  .dialogue {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin: 10px 0;
-      font-style: italic;
-      color: #e0e0e0;
-      font-size: 1rem;
-  }
-  .dialogue-label {
+  .phase-label {
       color: #cc0000;
-      font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+  }
+  .phase-title {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.9rem;
+      color: #ffffff;
+      margin-bottom: 6px;
+      line-height: 1.2;
+  }
+  .phase-subtitle {
+      color: #666;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 28px;
+  }
+  .card {
+      background: #111;
+      border: 1px solid #222;
+      border-left: 3px solid #cc0000;
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin: 12px 0;
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: #ccc;
+  }
+  .card-neutral {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin: 12px 0;
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: #ccc;
+  }
+  .question-text {
+      font-size: 1.05rem;
+      color: #e8e8e8;
+      line-height: 1.6;
+      margin: 20px 0 14px;
+      font-weight: 500;
+  }
+  .science-block {
+      background: #0e0e0e;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: 18px 22px;
+      margin: 16px 0;
+      font-size: 0.87rem;
+      color: #888;
+      line-height: 1.7;
+  }
+  .science-label {
+      color: #cc0000;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+  }
+  .ref {
+      color: #444;
+      font-size: 0.75rem;
+      font-style: italic;
+      margin-top: 10px;
+  }
+  .score-row {
+      display: flex;
+      gap: 12px;
+      margin: 20px 0;
+  }
+  .score-chip {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      color: #888;
+  }
+  .score-chip b { color: #cc0000; }
+  .dialogue-speaker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+  }
+  .dialogue-box {
+      background: #141414;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 8px 0;
+      font-size: 0.93rem;
+      color: #d0d0d0;
+      line-height: 1.6;
+      font-style: italic;
+  }
+  .result-big {
+      font-family: 'Crimson Text', serif;
+      font-size: 4.5rem;
+      color: #cc0000;
+      line-height: 1;
+      text-align: center;
+  }
+  .profile-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 28px;
+      margin: 20px 0;
+      text-align: center;
+  }
+  .profile-name {
+      font-family: 'Crimson Text', serif;
+      font-size: 2rem;
+      color: #fff;
+      margin: 8px 0;
+  }
+  .dim-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 16px 0;
+  }
+  .dim-box {
+      flex: 1;
+      background: #0e0e0e;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: 14px;
+      text-align: center;
+  }
+  .dim-label {
+      color: #555;
+      font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 6px;
   }
-
-  /* Clue tags */
-  .clue-tag {
-      display: inline-block;
-      background: #1e0000;
-      border: 1px solid #cc0000;
-      color: #ff6666;
-      border-radius: 4px;
-      padding: 3px 10px;
-      font-size: 0.78rem;
-      margin: 3px 3px 3px 0;
-  }
-  .clue-tag-grey {
-      display: inline-block;
-      background: #1a1a1a;
-      border: 1px solid #444;
-      color: #888;
-      border-radius: 4px;
-      padding: 3px 10px;
-      font-size: 0.78rem;
-      margin: 3px 3px 3px 0;
-  }
-
-  /* Verdict feedback */
-  .verdict-correct {
-      background: #0d1f0d;
-      border: 1px solid #2d5a2d;
-      border-left: 4px solid #4caf50;
-      border-radius: 6px;
-      padding: 20px 24px;
-      margin: 16px 0;
-  }
-  .verdict-wrong {
-      background: #1f0d0d;
-      border: 1px solid #5a2d2d;
-      border-left: 4px solid #cc0000;
-      border-radius: 6px;
-      padding: 20px 24px;
-      margin: 16px 0;
-  }
-  .verdict-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-  }
-  .science-box {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 16px 20px;
-      margin-top: 14px;
-      font-size: 0.88rem;
-      color: #aaa;
-      line-height: 1.6;
-  }
-  .science-title {
+  .dim-value {
       color: #cc0000;
-      font-size: 0.75rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
   }
-  .ref-tag {
-      color: #666;
-      font-size: 0.75rem;
-      font-style: italic;
-      margin-top: 8px;
-  }
-
-  /* Score bar */
-  .score-bar {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 6px;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-  }
-
-  /* Progress */
-  .progress-label {
-      color: #666;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-  }
-
-  /* Buttons override */
   .stButton > button {
       background: #cc0000 !important;
       color: white !important;
       border: none !important;
       border-radius: 4px !important;
       font-weight: 600 !important;
-      padding: 10px 28px !important;
+      padding: 10px 24px !important;
+      font-size: 0.88rem !important;
+      letter-spacing: 0.3px !important;
+  }
+  .stButton > button:hover { background: #aa0000 !important; }
+  .stRadio > div { gap: 8px !important; }
+  .stRadio label {
+      background: #111 !important;
+      border: 1px solid #222 !important;
+      border-radius: 4px !important;
+      padding: 10px 16px !important;
+      color: #ccc !important;
       font-size: 0.9rem !important;
-      transition: background 0.2s !important;
+      cursor: pointer !important;
   }
-  .stButton > button:hover {
-      background: #aa0000 !important;
-  }
-
-  /* Result screen */
-  .result-screen {
-      text-align: center;
-      padding: 40px 20px;
-  }
-  .big-score {
-      font-family: 'Crimson Text', serif;
-      font-size: 5rem;
-      color: #cc0000;
-      line-height: 1;
-  }
-  .profile-box {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-radius: 8px;
-      padding: 24px;
-      margin: 20px 0;
-  }
-  .profile-title {
-      color: #cc0000;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
-  }
-  .profile-name {
-      font-family: 'Crimson Text', serif;
-      font-size: 1.8rem;
-      color: #ffffff;
-      margin-bottom: 8px;
-  }
-  .divider { border: none; border-top: 1px solid #222; margin: 20px 0; }
+  hr { border: none; border-top: 1px solid #1a1a1a; margin: 24px 0; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── SCENARIOS DATA ────────────────────────────────────────────────────────────
-SCENARIOS = [
+
+# ── SESSION STATE ─────────────────────────────────────────────────────────────
+defaults = {
+    "phase": 1,
+    "p1_answers": [],
+    "p1_index": 0,
+    "p1_score": 0,
+    "p2_answers": [],
+    "p2_index": 0,
+    "p2_bias_count": 0,
+    "p3_strategy": None,
+    "p3_index": 0,
+    "p3_score": 0,
+    "p3_answered": False,
+    "p3_choice": None,
+    "radio_key": 0,
+}
+for k, v in defaults.items():
+    if k not in st.session_state:
+        st.session_state[k] = v
+
+
+# ── DATA ──────────────────────────────────────────────────────────────────────
+
+P1_QUESTIONS = [
     {
-        "id": 1,
-        "title": "L'Alibi du Vendredi Soir",
-        "context": "Un vol a eu lieu vendredi soir entre 21h et 23h dans un appartement du 3e arrondissement. Vous interrogez Marc, 34 ans, ancien colocataire de la victime.",
-        "dialogue": [
-            ("Inspecteur", "Où étiez-vous vendredi soir entre 21h et 23h ?"),
-            ("Marc", "J'étais chez moi. Je regardais une série, Netflix je crois. Oui, c'était Netflix."),
-            ("Inspecteur", "Vous avez regardé quoi exactement ?"),
-            ("Marc", "Euh... une série policière. Je me souviens plus du nom précisément. J'en regarde tellement..."),
-            ("Inspecteur", "Quelqu'un peut confirmer votre présence ?"),
-            ("Marc", "Non, j'étais seul. Mais je vous jure que j'étais là. Pourquoi je mentirais ?"),
+        "q": "Lors d'un interrogatoire tendu, un suspect pleure en racontant son histoire. Quelle est votre réaction instinctive ?",
+        "options": [
+            "Je ressens de la compassion et je l'écoute avec empathie",
+            "Je note la réaction émotionnelle mais je reste concentré sur les faits",
+            "Je me demande si les larmes sont authentiques ou stratégiques",
+            "Je reste neutre, l'émotion ne change rien à mon analyse",
         ],
-        "clues_visible": [
-            "Répète 'Netflix' comme pour s'en convaincre",
-            "Ne se souvient pas du nom de la série",
-            "Ajoute spontanément 'Pourquoi je mentirais ?'",
-        ],
-        "clues_stereotype": [
-            "Ne fuit pas le regard",
-            "Voix stable, pas d'agitation visible",
-        ],
-        "answer": "ment",
-        "answer_label": "Il ment",
-        "explanation": "Marc présente plusieurs signaux cognitifs classiques du mensonge : il sur-spécifie puis se rétracte ('Netflix je crois… oui c'était Netflix'), échoue à fournir des détails concrets sur une activité censément normale, et utilise la formule 'Pourquoi je mentirais ?': une stratégie rhétorique typique du menteur pour détourner l'attention (DePaulo et al., 2003).\n\nNotez aussi qu'il ne fuit PAS le regard et que sa voix est stable, deux stéréotypes souvent utilisés à tort comme indices de mensonge. La recherche montre que ces signaux ne sont pas fiables (Bond & DePaulo, 2006).",
-        "science_concept": "Le menteur sur-contrôle certains canaux (regard, voix) mais laisse filtrer des incohérences dans le contenu verbal — c'est le principe du 'leakage' cognitif.",
-        "stereotype_trap": "Regard direct et voix stable ≠ vérité. Ces indices ne sont pas corrélés avec la tromperie.",
-        "ref": "DePaulo et al. (2003) · Bond & DePaulo (2006) · Ekman & Friesen",
+        "scores": [0, 1, 2, 3],
+        "science": "La recherche de Duran et al. (2019) montre que les individus à faible réactivité émotionnelle au repos détectent mieux le mensonge. Ce n'est pas un manque d'empathie : c'est la capacité à percevoir sans se laisser submerger. L'empathie affective non régulée tend à activer le biais de vérité.",
+        "ref": "Duran et al. (2019) · Mayer & Salovey (1997)",
     },
     {
-        "id": 2,
-        "title": "La Collègue Absente",
-        "context": "Une fraude interne a été commise dans votre entreprise. 15 000€ ont disparu des comptes. Vous interrogez Sandra, 41 ans, comptable depuis 8 ans, qui avait accès aux fichiers concernés.",
-        "dialogue": [
-            ("Inspecteur", "Avez-vous accédé aux fichiers de facturation le 12 mars ?"),
-            ("Sandra", "Non, absolument pas. Ce jour-là j'étais en réunion toute la matinée, puis j'ai déjeuné avec Léa des RH, vous pouvez lui demander, elle confirme."),
-            ("Inspecteur", "Et l'après-midi ?"),
-            ("Sandra", "L'après-midi j'avais des urgences sur le bilan trimestriel. Je suis restée à mon bureau jusqu'à 19h. Plusieurs collègues m'ont vue."),
-            ("Inspecteur", "Avez-vous une idée de qui aurait pu faire ça ?"),
-            ("Sandra", "Honnêtement non. Mais je sais que Thomas avait des problèmes financiers récemment. Je dis ça sans l'accuser hein."),
+        "q": "Vous devez évaluer la crédibilité d'un témoin dont vous appréciez personnellement la personnalité. Comment procédez-vous ?",
+        "options": [
+            "Je lui fais naturellement plus confiance, il m'inspire de la sympathie",
+            "J'essaie de mettre de côté ma sympathie mais c'est difficile",
+            "Je suis conscient du biais potentiel et je fais un effort actif pour l'écarter",
+            "La relation personnelle ne joue aucun rôle dans mon analyse",
         ],
-        "clues_visible": [
-            "Alibi détaillé, spontané et vérifiable",
-            "Nomme des témoins précis pour chaque moment",
-            "Ajoute une précision ('sans l'accuser') qui montre une conscience sociale",
-        ],
-        "clues_stereotype": [
-            "Parle vite, semble nerveuse",
-            "Joue avec son stylo pendant l'interrogatoire",
-        ],
-        "answer": "vrai",
-        "answer_label": "Elle dit la vérité",
-        "explanation": "Sandra présente un profil de véracité : elle fournit un alibi détaillé avec des témoins nommés et vérifiables, elle répond directement aux questions sans évasion, et sa mention de Thomas est accompagnée d'une modération spontanée qui indique une pensée sociale complexe, pas une stratégie de diversion.\n\nSon agitation (parle vite, joue avec un stylo) est souvent interprétée comme un signe de mensonge. C'est un stéréotype faux : le stress d'un innocent interrogé peut produire exactement ces comportements (Vrij, 2008).",
-        "science_concept": "Un récit vrai est généralement riche en détails contextuels, ancrés dans la mémoire épisodique. Un récit inventé tend à être vague ou sur-simplifié.",
-        "stereotype_trap": "Nervosité et agitation = stéréotype du menteur. Un innocent interrogé peut être tout aussi agité, voire plus.",
-        "ref": "Vrij (2008) · Zuckerman et al. (1981) · DePaulo et al. (2003)",
+        "scores": [0, 1, 2, 3],
+        "science": "La relation affective avec l'interlocuteur est l'un des facteurs qui modulent le biais de vérité (Levine, 2014). Plus on apprécie quelqu'un, plus on active le truth-default. La capacité à reconnaître ce biais et à le compenser activement est une dimension clé de l'IE-ability (Petrides & Furnham, 2001).",
+        "ref": "Levine (2014) · Petrides & Furnham (2001)",
     },
     {
-        "id": 3,
-        "title": "Le Témoin Trop Sûr",
-        "context": "Un accident de voiture a eu lieu à un carrefour. Un piéton a été renversé. Vous interrogez Karim, 28 ans, qui se présente comme témoin direct de la scène.",
-        "dialogue": [
-            ("Inspecteur", "Décrivez-moi exactement ce que vous avez vu."),
-            ("Karim", "La voiture est arrivée à toute vitesse, le feu était rouge, le conducteur n'a même pas freiné. C'est clair, net, précis."),
-            ("Inspecteur", "À quelle distance étiez-vous ?"),
-            ("Karim", "Pas loin. Enfin... de l'autre côté du carrefour. Mais je voyais très bien."),
-            ("Inspecteur", "Le conducteur, vous pouvez le décrire ?"),
-            ("Karim", "Oui. Enfin non, j'ai pas vu son visage. Mais la voiture était rouge, j'en suis certain. Ou peut-être bordeaux."),
-            ("Inspecteur", "Vous avez vu la couleur du feu ?"),
-            ("Karim", "Oui, rouge. Enfin, je suppose que c'était rouge. Logiquement c'était rouge sinon l'accident aurait pas eu lieu, non ?"),
+        "q": "Un collègue vous parle d'un projet avec beaucoup d'enthousiasme et d'émotion. Plus tard, vous réalisez que certains faits étaient exagérés. Comment réagissez-vous ?",
+        "options": [
+            "Je suis surpris, son enthousiasme m'avait totalement convaincu",
+            "Je me souviens d'avoir eu un doute mais je l'avais mis de côté",
+            "Je n'étais pas complètement convaincu mais je ne voulais pas le contrarier",
+            "J'avais noté les imprécisions sur le moment mais je n'ai pas réagi",
         ],
-        "clues_visible": [
-            "Certitude initiale très forte ('clair, net, précis')",
-            "Les détails se rétractent progressivement",
-            "Raisonnement circulaire : déduit le feu rouge de l'accident lui-même",
-        ],
-        "clues_stereotype": [
-            "Regard direct et assuré",
-            "Ton confiant, pas d'hésitation dans la voix",
-        ],
-        "answer": "ment",
-        "answer_label": "Il ment (ou déforme la réalité)",
-        "explanation": "Karim ne ment pas forcément de manière intentionnelle, mais son témoignage est construit plutôt que mémorisé. Il commence par une certitude totale ('clair, net, précis'), puis recule sur chaque détail concret : la distance, la couleur du véhicule, la couleur du feu. Le plus révélateur : il déduit la couleur du feu à partir de la logique de l'accident, pas d'une observation réelle.\n\nCe cas illustre la différence entre un récit mémorisé (riche en détails sensoriels cohérents) et un récit reconstruit (affirmations générales + détails qui s'effondrent sous pression).",
-        "science_concept": "La charge cognitive augmentée (questions précises) fait émerger les incohérences entre ce qu'on prétend avoir vu et ce qu'on a réellement mémorisé.",
-        "stereotype_trap": "Confiance et assurance dans le ton ne signifient pas véracité. Parfois, les témoins les plus affirmatifs sont ceux dont le récit est le plus reconstruit.",
-        "ref": "Vrij (2008) · Article 2015 · Hartwig & Bond (2011)",
+        "scores": [0, 1, 2, 3],
+        "science": "Duran et al. (2020) montrent que les énoncés chargés émotionnellement bénéficient d'un préjugé favorable indépendamment de leur véracité. L'enthousiasme et l'émotion sont des vecteurs puissants de persuasion qui contournent notre vigilance analytique.",
+        "ref": "Duran et al. (2020) · ten Brinke et al. (2012)",
     },
     {
-        "id": 4,
-        "title": "La Dispute du Soir",
-        "context": "Une agression s'est produite dans un bar. Une femme, Inès, 26 ans, affirme avoir été victime d'une agression verbale et physique de la part d'un inconnu. Vous l'interrogez.",
-        "dialogue": [
-            ("Inspecteur", "Racontez-moi ce qui s'est passé."),
-            ("Inès", "C'était horrible. Il est arrivé par derrière, j'ai senti son souffle dans mon cou, ça sentait l'alcool. Il a attrapé mon bras et m'a dit de me taire."),
-            ("Inspecteur", "Vous pouvez le décrire ?"),
-            ("Inès", "Grand, cheveux sombres, une veste grise ou non, bleu marine. Il avait une cicatrice ici... *(montre sa joue gauche)*. J'essaie de me souvenir exactement mais j'étais tellement paniquée."),
-            ("Inspecteur", "Il y avait du monde autour ?"),
-            ("Inès", "Oui, beaucoup de monde. Mais personne n'a réagi, c'est ça qui m'a choquée le plus, en fait."),
+        "q": "Comment décririez-vous votre façon de prendre des décisions dans des situations sociales ambiguës ?",
+        "options": [
+            "Je me fie principalement à mon intuition et à ce que je ressens",
+            "Je mélange intuition et réflexion selon les situations",
+            "Je préfère analyser avant de conclure, même si ça prend du temps",
+            "J'analyse systématiquement, l'intuition seule ne me suffit jamais",
         ],
-        "clues_visible": [
-            "Détails sensoriels précis (souffle, odeur, sensation physique)",
-            "Incertitude sur un détail (couleur de la veste) avec correction spontanée",
-            "Émotion cohérente avec l'événement rapporté",
-        ],
-        "clues_stereotype": [
-            "Voix qui tremble légèrement",
-            "Hésite sur la couleur de la veste",
-        ],
-        "answer": "vrai",
-        "answer_label": "Elle dit la vérité",
-        "explanation": "Le témoignage d'Inès présente les marqueurs classiques d'un récit véridique : richesse des détails sensoriels (souffle, odeur d'alcool, sensation physique), cohérence émotionnelle, et surtout une auto-correction spontanée sur la couleur de la veste, un signe fort de mémoire réelle plutôt que de récit construit.\n\nLes menteurs tendent à éviter les auto-corrections de peur de paraître peu crédibles. Un vrai souvenir, lui, évolue naturellement sous la pression de la récupération mémorielle.",
-        "science_concept": "Les récits vrais contiennent plus de détails sensoriels non pertinents pour la narration (odeur, texture, sensation). Les récits inventés tendent à se concentrer sur les éléments 'importants' uniquement.",
-        "stereotype_trap": "La voix qui tremble et les hésitations sont interprétées comme des signes de mensonge. En réalité, elles indiquent souvent une émotion authentique ou un effort de récupération mémorielle.",
-        "ref": "DePaulo et al. (2003) · Vrij et al. (2007) · Duran et al. (2020)",
-    },
-    {
-        "id": 5,
-        "title": "Le Manager Sous Pression",
-        "context": "Des données confidentielles de votre entreprise ont été transmises à un concurrent. Vous interrogez David, 45 ans, directeur commercial, qui avait accès à ces données.",
-        "dialogue": [
-            ("Inspecteur", "Avez-vous partagé des données avec la société Nexum ?"),
-            ("David", "Écoutez, je vais être très clair : je n'ai jamais, au grand jamais, transmis quoi que ce soit à qui que ce soit en dehors des procédures officielles."),
-            ("Inspecteur", "Avez-vous eu des contacts avec Nexum récemment ?"),
-            ("David", "Des contacts ? Dans le cadre professionnel normal, peut-être. C'est mon travail de rencontrer des gens du secteur."),
-            ("Inspecteur", "Et en dehors du cadre professionnel ?"),
-            ("David", "Je ne vois pas ce que vous voulez dire. Je pense que vous devriez vous concentrer sur les vrais problèmes de sécurité informatique plutôt que de m'interroger moi."),
-        ],
-        "clues_visible": [
-            "Réponse initiale hyper formelle et suraffirmée",
-            "Réinterprète 'contacts' pour élargir la définition",
-            "Contre-attaque en redirigeant l'attention",
-        ],
-        "clues_stereotype": [
-            "Regard assuré, posture droite",
-            "Ton professionnel et calme",
-        ],
-        "answer": "ment",
-        "answer_label": "Il ment",
-        "explanation": "David utilise trois stratégies classiques du menteur sophistiqué. D'abord la suraffirmation : 'jamais, au grand jamais', les personnes sincères ont rarement besoin de telles formulations superlatives. Ensuite la réinterprétation sémantique : il redéfinit 'contacts' pour inclure une version anodine. Enfin la contre-attaque : il redirige l'interrogatoire pour esquiver.\n\nSon calme apparent et son regard assuré sont précisément ce qu'un menteur expérimenté produit intentionnellement, le 'sur-contrôle' du canal non verbal décrit par Ekman & Friesen.",
-        "science_concept": "Les menteurs sophistiqués sur-contrôlent les canaux visibles (posture, regard) mais leur stratégie verbale révèle des patterns caractéristiques : suraffirmation, esquive sémantique, contre-attaque.",
-        "stereotype_trap": "Calme et assurance = souvent interprétés comme signes de sincérité. Chez un menteur expérimenté, c'est exactement l'inverse : le calme est produit intentionnellement.",
-        "ref": "Ekman & Friesen · Vrij (2008) · Meissner & Kassin (2002)",
+        "scores": [0, 1, 2, 3],
+        "science": "Reinhard et al. (2013) montrent que le raisonnement analytique améliore la détection quand il s'agit de chercher des incohérences. Mais l'avantage n'est pas universel : ten Brinke et al. (2012) montrent que certains jugements intuitifs très rapides peuvent être plus précis que des jugements délibérés. L'IE-ability articule les deux modes.",
+        "ref": "Reinhard et al. (2013) · ten Brinke et al. (2012)",
     },
 ]
 
-# ── SESSION STATE ─────────────────────────────────────────────────────────────
-if "current" not in st.session_state:
-    st.session_state.current = 0
-if "score" not in st.session_state:
-    st.session_state.score = 0
-if "answered" not in st.session_state:
-    st.session_state.answered = False
-if "user_choice" not in st.session_state:
-    st.session_state.user_choice = None
-if "screen" not in st.session_state:
-    st.session_state.screen = "game"  # "game" | "result"
+P2_SCENARIOS = [
+    {
+        "context": "Un ami vous demande de l'argent pour une urgence médicale. Il semble sincèrement inquiet et vous connaissez sa famille depuis longtemps.",
+        "question": "Votre premier réflexe : vous le croyez ?",
+        "answer": "biais",
+        "true_lie": "vrai",
+        "explanation": "Dans ce scénario, votre réponse instinctive est probablement oui. La relation affective préexistante et la charge émotionnelle de la situation activent automatiquement le biais de vérité. Levine (2014) explique que nous sommes réglés par défaut sur la confiance dans nos interactions sociales proches. Ce n'est pas une erreur, c'est une adaptation.",
+        "ref": "Levine (2014) · Truth-Default Theory",
+    },
+    {
+        "context": "Lors d'un entretien d'embauche, un candidat vous regarde droit dans les yeux, parle d'une voix assurée et décrit un parcours impressionnant sans la moindre hésitation.",
+        "question": "Vous êtes enclin à le croire ?",
+        "answer": "biais",
+        "true_lie": "ment",
+        "explanation": "Le regard direct et l'assurance vocale sont deux des stéréotypes les plus répandus de la sincérité. Or Bond et DePaulo (2006) montrent qu'ils ne sont pas corrélés avec la véracité. Un menteur expérimenté sur-contrôle précisément ces canaux visibles, comme le décrivent Ekman et Friesen avec le concept de leakage.",
+        "ref": "Bond & DePaulo (2006) · Ekman & Friesen",
+    },
+    {
+        "context": "Un inconnu dans la rue vous demande votre chemin. Il semble pressé, légèrement agité, et son histoire ne tient pas complètement debout.",
+        "question": "Vous pensez qu'il vous cache quelque chose ?",
+        "answer": "neutre",
+        "true_lie": "vrai",
+        "explanation": "L'agitation et les incohérences mineures dans un récit spontané ne sont pas des indicateurs fiables de mensonge. DePaulo et al. (2003) confirment que ces indices sont faiblement corrélés avec la tromperie. Un individu sincère mais stressé peut produire exactement ce comportement.",
+        "ref": "DePaulo et al. (2003) · Zuckerman et al. (1981)",
+    },
+    {
+        "context": "Un politique affirme à la télévision, avec conviction et de nombreux détails chiffrés, que sa réforme bénéficiera à tous les citoyens.",
+        "question": "Vous êtes tenté de le croire sur le moment ?",
+        "answer": "biais",
+        "true_lie": "ment",
+        "explanation": "La densité des détails chiffrés et la conviction du locuteur activent un biais cognitif connu : nous interprétons la précision comme un gage de vérité. Or un récit construit peut être tout aussi précis qu'un récit authentique, et Duran et al. (2020) montrent que le contenu émotionnellement engageant bénéficie d'un préjugé favorable indépendant de sa véracité.",
+        "ref": "Duran et al. (2020) · Levine (2014)",
+    },
+]
 
-# ── RESULT SCREEN ─────────────────────────────────────────────────────────────
-def show_result():
-    score = st.session_state.score
-    total = len(SCENARIOS)
-    pct = score / total
+P3_SUSPECT = {
+    "name": "Thomas R., 38 ans",
+    "context": "Un détournement de fonds a eu lieu dans l'entreprise. Thomas avait accès aux comptes. Il nie toute implication.",
+    "normal_dialogue": [
+        ("Inspecteur", "Où étiez-vous le 15 mars en soirée ?"),
+        ("Thomas", "Chez moi. Je me souviens, je regardais quelque chose à la télévision."),
+        ("Inspecteur", "Avez-vous accédé aux systèmes de comptabilité ce soir-là ?"),
+        ("Thomas", "Non, absolument pas. Je n'avais aucune raison de le faire."),
+        ("Inspecteur", "Avez-vous quelque chose à ajouter ?"),
+        ("Thomas", "Non. Je suis innocent et je pense que vous faites fausse route."),
+    ],
+    "cognitive_dialogue": [
+        ("Inspecteur", "Racontez-moi votre soirée du 15 mars en commençant par la fin et en remontant vers le début."),
+        ("Thomas", "Euh... j'étais au lit. Avant ça... je dînais. Avant le dîner... je travaillais depuis chez moi. Non, attendez, j'étais sorti avant. Enfin je crois."),
+        ("Inspecteur", "Vous croyez ou vous en êtes sûr ?"),
+        ("Thomas", "Je suis sûr que j'étais chez moi le soir. C'est juste l'ordre que... c'est difficile à reconstituer."),
+        ("Inspecteur", "À quel moment précis avez-vous fermé votre ordinateur ce soir-là ?"),
+        ("Thomas", "Vers... 22h ? Ou peut-être avant. Enfin, je me souviens pas exactement de l'heure."),
+    ],
+    "answer": "ment",
+    "normal_explanation": "Avec des questions standard, Thomas fournit des réponses vagues mais cohérentes en apparence. Rien ne permet de conclure formellement. C'est le problème central de la détection classique : sans pression cognitive, les menteurs peuvent maintenir un récit plausible.",
+    "cognitive_explanation": "Quand vous demandez à Thomas de raconter les événements à l'envers, son récit s'effondre. Les incohérences apparaissent, les hésitations se multiplient, il se contredit sur des détails qu'un innocent se rappellerait facilement. Vrij (2008) démontre que cette technique augmente la charge cognitive du menteur au-delà de ses capacités de contrôle.",
+    "science": "Mentir mobilise simultanément plusieurs ressources exécutives : construire un récit fictif, le maintenir cohérent, surveiller sa propre présentation et anticiper les réactions de l'interlocuteur. Raconter à l'envers ajoute une contrainte supplémentaire qui dépasse les capacités du menteur. Un innocent, lui, puise dans sa mémoire épisodique réelle et n'est pas déstabilisé par l'ordre de récupération.",
+    "ref": "Vrij (2008) · Hartwig & Bond (2011) · Article 2015",
+}
 
-    if pct == 1.0:
-        profile = "Le Wizard"
-        desc = "Précision parfaite. Vous faites partie des rares individus que la recherche appelle les 'wizards' — naturellement attentifs aux signaux cognitifs réels plutôt qu'aux stéréotypes."
-        emoji = "🔮"
-    elif pct >= 0.8:
-        profile = "L'Analyste"
-        desc = "Excellent résultat. Vous résistez bien aux stéréotypes et mobilisez un raisonnement analytique efficace. Quelques biais persistent, mais votre profil est celui d'un bon détecteur."
-        emoji = "🧠"
-    elif pct >= 0.6:
-        profile = "L'Apprenti Détective"
-        desc = "Bon début. Vous détectez mieux que la moyenne (54% selon Bond & DePaulo, 2006), mais certains stéréotypes influencent encore vos jugements. La bonne science s'apprend."
-        emoji = "🔍"
-    elif pct >= 0.4:
-        profile = "La Victime du Biais de Vérité"
-        desc = "Vous avez tendance à croire les gens — c'est humain et adaptatif (Levine, 2014). Mais dans un contexte de détection, ce biais vous coûte cher. Entraînez votre scepticisme."
-        emoji = "⚖️"
-    else:
-        profile = "L'Esclave des Stéréotypes"
-        desc = "Votre jugement est fortement guidé par des indices non fiables — regard, ton, nervosité. La recherche montre que ces indices sont quasi inutiles (DePaulo et al., 2003)."
-        emoji = "🪞"
 
+# ── HELPERS ───────────────────────────────────────────────────────────────────
+def header(label, title, subtitle=""):
+    st.markdown(f"<div class='phase-label'>{label}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='phase-title'>{title}</div>", unsafe_allow_html=True)
+    if subtitle:
+        st.markdown(f"<div class='phase-subtitle'>{subtitle}</div>", unsafe_allow_html=True)
+
+def science_block(text, ref=""):
     st.markdown(f"""
-    <div class='result-screen'>
-        <div style='color:#666;font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;'>
-            RÉSULTAT FINAL
+    <div class='science-block'>
+        <div class='science-label'>Éclairage scientifique</div>
+        <div>{text}</div>
+        <div class='ref'>{ref}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+def progress_bar(current, total):
+    pct = int((current / total) * 100)
+    st.markdown(f"""
+    <div style='margin-bottom:20px;'>
+        <div style='display:flex;justify-content:space-between;margin-bottom:5px;'>
+            <span style='color:#555;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;'>Progression</span>
+            <span style='color:#555;font-size:0.75rem;'>{current}/{total}</span>
         </div>
-        <div class='big-score'>{score}/{total}</div>
-        <div style='color:#888;margin:8px 0 30px;font-size:1rem;'>bonnes réponses</div>
-        <div class='profile-box'>
-            <div class='profile-title'>VOTRE PROFIL DE DÉTECTEUR</div>
-            <div style='font-size:2.5rem;margin-bottom:8px;'>{emoji}</div>
-            <div class='profile-name'>{profile}</div>
-            <hr class='divider'>
-            <div style='color:#aaa;font-size:0.92rem;line-height:1.7;'>{desc}</div>
+        <div style='background:#1a1a1a;border-radius:2px;height:3px;'>
+            <div style='background:#cc0000;height:3px;border-radius:2px;width:{pct}%;'></div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div style='background:#111;border:1px solid #222;border-radius:6px;padding:20px 24px;margin-top:8px;'>
-        <div style='color:#cc0000;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;'>
-            CE QUE LA SCIENCE RETIENT
-        </div>
-        <div style='color:#888;font-size:0.88rem;line-height:1.7;'>
-            • <b style='color:#ccc;'>54%</b> — la précision moyenne humaine dans la détection du mensonge (Bond & DePaulo, 2006)<br>
-            • Les indices classiques (regard fuyant, agitation) sont <b style='color:#ccc;'>non fiables</b> (DePaulo et al., 2003)<br>
-            • Les vrais signaux sont <b style='color:#ccc;'>cognitifs et verbaux</b> : incohérences, suraffirmation, esquive sémantique<br>
-            • Le détachement émotionnel améliore la détection (Duran et al., 2019)<br>
-            • Le biais de vérité nous pousse à croire par défaut — c'est adaptatif mais coûteux (Levine, 2014)
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🔄  Recommencer"):
-        st.session_state.current = 0
-        st.session_state.score = 0
-        st.session_state.answered = False
-        st.session_state.user_choice = None
-        st.session_state.screen = "game"
+# ── PHASE 1 : PERSONNALITÉ ────────────────────────────────────────────────────
+def phase1():
+    idx = st.session_state.p1_index
+    total = len(P1_QUESTIONS)
+
+    if idx >= total:
+        st.session_state.phase = 2
         st.rerun()
+        return
 
-# ── GAME SCREEN ───────────────────────────────────────────────────────────────
-def show_game():
-    idx = st.session_state.current
-    s = SCENARIOS[idx]
-    total = len(SCENARIOS)
+    header(
+        "Phase 1 sur 3  —  Personnalité",
+        "Quel est votre profil émotionnel ?",
+        "Répondez instinctivement. Il n'y a pas de bonne ou mauvaise réponse — chaque choix révèle quelque chose sur votre rapport aux émotions dans un contexte de détection."
+    )
 
-    # ── Header
-    st.markdown(f"""
-    <div style='display:flex;justify-content:space-between;align-items:center;
-                border-bottom:1px solid #1e1e1e;padding-bottom:14px;margin-bottom:20px;'>
-        <div>
-            <div style='color:#cc0000;font-size:0.7rem;font-weight:700;text-transform:uppercase;
-                        letter-spacing:1.5px;margin-bottom:4px;'>INTERROGATOIRE {idx+1}/{total}</div>
-            <div style='font-family:Crimson Text,serif;font-size:1.6rem;color:#fff;font-weight:600;'>
-                {s["title"]}
-            </div>
-        </div>
-        <div style='text-align:right;'>
-            <div style='color:#666;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;'>Score</div>
-            <div style='font-size:1.4rem;font-weight:700;color:#cc0000;'>{st.session_state.score}</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    progress_bar(idx, total)
 
-    # ── Context
-    st.markdown(f"""
-    <div class='scenario-card'>
-        <div style='color:#cc0000;font-size:0.72rem;font-weight:700;text-transform:uppercase;
-                    letter-spacing:1px;margin-bottom:10px;'>📁 CONTEXTE</div>
-        {s["context"]}
-    </div>
-    """, unsafe_allow_html=True)
+    q = P1_QUESTIONS[idx]
+    st.markdown(f"<div class='question-text'>{q['q']}</div>", unsafe_allow_html=True)
 
-    # ── Dialogue
-    st.markdown("<div style='margin:20px 0 10px;color:#666;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;'>🎙️ TRANSCRIPTION DE L'INTERROGATOIRE</div>", unsafe_allow_html=True)
-    for speaker, line in s["dialogue"]:
-        color = "#cc0000" if speaker == "Inspecteur" else "#aaaaaa"
-        align = "left"
+    choice = st.radio(
+        "",
+        q["options"],
+        index=None,
+        key=f"p1_radio_{idx}"
+    )
+
+    if choice:
+        score = q["scores"][q["options"].index(choice)]
+        science_block(q["science"], q["ref"])
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Question suivante"):
+            st.session_state.p1_answers.append(score)
+            st.session_state.p1_score += score
+            st.session_state.p1_index += 1
+            st.rerun()
+
+
+# ── PHASE 2 : BIAIS DE VÉRITÉ ─────────────────────────────────────────────────
+def phase2():
+    idx = st.session_state.p2_index
+    total = len(P2_SCENARIOS)
+
+    if idx >= total:
+        st.session_state.phase = 3
+        st.rerun()
+        return
+
+    header(
+        "Phase 2 sur 3  —  Cognition",
+        "Mesurons votre biais de vérité.",
+        "Pour chaque situation, répondez instinctivement. Ne cherchez pas la bonne réponse, cherchez votre réaction première."
+    )
+
+    progress_bar(idx, total)
+
+    s = P2_SCENARIOS[idx]
+
+    st.markdown(f"<div class='card'>{s['context']}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='question-text'>{s['question']}</div>", unsafe_allow_html=True)
+
+    choice = st.radio(
+        "",
+        ["Oui, plutôt", "Non, pas vraiment", "Je ne sais pas"],
+        index=None,
+        key=f"p2_radio_{idx}"
+    )
+
+    if choice:
+        is_biased = (choice == "Oui, plutôt" and s["answer"] == "biais")
+        if is_biased:
+            st.session_state.p2_bias_count += 1
+
+        science_block(s["explanation"], s["ref"])
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Scénario suivant"):
+            st.session_state.p2_answers.append(choice)
+            st.session_state.p2_index += 1
+            st.rerun()
+
+
+# ── PHASE 3 : CHARGE COGNITIVE ────────────────────────────────────────────────
+def phase3():
+    s = P3_SUSPECT
+
+    if not st.session_state.p3_strategy:
+        header(
+            "Phase 3 sur 3  —  Intelligence émotionnelle en action",
+            "Vous menez l'interrogatoire.",
+            "Vous avez le choix de votre stratégie d'interrogatoire. Ce choix va déterminer ce que vous obtenez."
+        )
+
         st.markdown(f"""
-        <div class='dialogue'>
-            <div class='dialogue-label' style='color:{color};'>{speaker.upper()}</div>
+        <div class='card'>
+            <div style='color:#cc0000;font-size:0.75rem;font-weight:700;text-transform:uppercase;
+                        letter-spacing:1px;margin-bottom:10px;'>Le suspect</div>
+            <b style='color:#fff;font-size:1rem;'>{s["name"]}</b><br><br>
+            {s["context"]}
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<div class='question-text'>Quelle stratégie d'interrogatoire choisissez-vous ?</div>", unsafe_allow_html=True)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+            <div class='card-neutral' style='min-height:120px;'>
+                <div style='color:#888;font-size:0.8rem;font-weight:600;text-transform:uppercase;
+                            letter-spacing:1px;margin-bottom:8px;'>Stratégie standard</div>
+                Vous posez des questions directes et classiques sur les faits, l'alibi, les accès aux systèmes.
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("Choisir cette stratégie", key="normal"):
+                st.session_state.p3_strategy = "normal"
+                st.rerun()
+        with col2:
+            st.markdown("""
+            <div class='card-neutral' style='border-color:#330000;min-height:120px;'>
+                <div style='color:#cc0000;font-size:0.8rem;font-weight:600;text-transform:uppercase;
+                            letter-spacing:1px;margin-bottom:8px;'>Stratégie à charge cognitive</div>
+                Vous demandez au suspect de raconter les événements à l'envers, posez des questions inattendues sur des détails précis.
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("Choisir cette stratégie", key="cognitive"):
+                st.session_state.p3_strategy = "cognitive"
+                st.rerun()
+
+        st.markdown("""
+        <div class='science-block' style='margin-top:20px;'>
+            <div class='science-label'>Pourquoi ce choix compte</div>
+            Vrij (2008) démontre que les techniques à haute charge cognitive font émerger des différences comportementales
+            significatives entre les menteurs et les personnes sincères. Les menteurs, contrairement aux individus honnêtes,
+            n'ont pas de mémoire épisodique réelle sur laquelle s'appuyer.
+            <div class='ref'>Vrij (2008) · Hartwig & Bond (2011)</div>
+        </div>
+        """, unsafe_allow_html=True)
+        return
+
+    strategy = st.session_state.p3_strategy
+    dialogue = s["normal_dialogue"] if strategy == "normal" else s["cognitive_dialogue"]
+
+    header(
+        "Phase 3 sur 3  —  Intelligence émotionnelle en action",
+        "Transcription de l'interrogatoire",
+    )
+
+    strat_label = "Stratégie standard" if strategy == "normal" else "Stratégie à charge cognitive"
+    st.markdown(f"<div style='color:#555;font-size:0.8rem;margin-bottom:16px;'>Stratégie choisie : <b style='color:#888;'>{strat_label}</b></div>", unsafe_allow_html=True)
+
+    for speaker, line in dialogue:
+        color = "#cc0000" if speaker == "Inspecteur" else "#888"
+        st.markdown(f"""
+        <div class='dialogue-box'>
+            <div class='dialogue-speaker' style='color:{color};'>{speaker.upper()}</div>
             {line}
         </div>
         """, unsafe_allow_html=True)
 
-    # ── Clues
-    st.markdown("<div style='margin:20px 0 8px;color:#666;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;'>🔎 INDICES OBSERVÉS</div>", unsafe_allow_html=True)
-    clues_html = ""
-    for c in s["clues_visible"]:
-        clues_html += f"<span class='clue-tag'>⚠ {c}</span>"
-    for c in s["clues_stereotype"]:
-        clues_html += f"<span class='clue-tag-grey'>👁 {c}</span>"
-    st.markdown(f"<div>{clues_html}</div>", unsafe_allow_html=True)
+    if not st.session_state.p3_answered:
+        st.markdown("<div class='question-text' style='margin-top:24px;'>Après cet interrogatoire, votre verdict :</div>", unsafe_allow_html=True)
 
-    st.markdown("<div style='margin:6px 0 4px;'><span style='color:#cc0000;font-size:0.75rem;'>⚠ Signal possible</span> &nbsp;&nbsp; <span style='color:#555;font-size:0.75rem;'>👁 Stéréotype courant</span></div>", unsafe_allow_html=True)
-
-    # ── Decision
-    if not st.session_state.answered:
-        st.markdown("<div style='margin:28px 0 12px;color:#888;font-size:0.85rem;'>Votre verdict :</div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
-            if st.button(" Cette personne dit la vérité", use_container_width=True):
-                st.session_state.user_choice = "vrai"
-                st.session_state.answered = True
-                if "vrai" == s["answer"]:
-                    st.session_state.score += 1
+            if st.button("Il dit la vérité", use_container_width=True):
+                st.session_state.p3_choice = "vrai"
+                st.session_state.p3_answered = True
                 st.rerun()
         with col2:
-            if st.button(" Cette personne ment", use_container_width=True):
-                st.session_state.user_choice = "ment"
-                st.session_state.answered = True
+            if st.button("Il ment", use_container_width=True):
+                st.session_state.p3_choice = "ment"
+                st.session_state.p3_answered = True
                 if "ment" == s["answer"]:
-                    st.session_state.score += 1
+                    st.session_state.p3_score = 1
                 st.rerun()
-
-    # ── Feedback
     else:
-        correct = st.session_state.user_choice == s["answer"]
-        verdict_class = "verdict-correct" if correct else "verdict-wrong"
-        verdict_icon = "✅" if correct else "❌"
-        verdict_text = "Bonne détection !" if correct else "Raté, votre jugement a été biaisé."
+        correct = st.session_state.p3_choice == s["answer"]
+        explanation = s["cognitive_explanation"] if strategy == "cognitive" else s["normal_explanation"]
+
+        bg = "#0d1a0d" if correct else "#1a0d0d"
+        border = "#2d5a2d" if correct else "#5a1a1a"
+        verdict_text = "Bonne détection." if correct else "Verdict incorrect."
 
         st.markdown(f"""
-        <div class='{verdict_class}'>
-            <div class='verdict-title'>{verdict_icon} {verdict_text}</div>
-            <div style='color:#aaa;font-size:0.9rem;margin-bottom:4px;'>
-                <b style='color:#fff;'>Réponse :</b> {s["answer_label"]}
-            </div>
+        <div style='background:{bg};border:1px solid {border};border-radius:6px;
+                    padding:16px 20px;margin:16px 0;'>
+            <div style='font-weight:600;color:#fff;margin-bottom:6px;'>{verdict_text}</div>
+            <div style='color:#aaa;font-size:0.9rem;'>Thomas ment. Son récit ne s'appuie sur aucune mémoire épisodique réelle.</div>
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown(f"""
-        <div class='science-box'>
-            <div class='science-title'>🧪 EXPLICATION SCIENTIFIQUE</div>
-            <div style='color:#ccc;margin-bottom:12px;white-space:pre-line;'>{s["explanation"]}</div>
-            <div style='background:#0d0d0d;border:1px solid #cc0000;border-radius:4px;
-                        padding:10px 14px;margin:10px 0;'>
-                <div style='color:#cc0000;font-size:0.72rem;font-weight:700;
-                            text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;'>
-                    CONCEPT CLÉ
-                </div>
-                <div style='color:#ddd;font-size:0.88rem;'>{s["science_concept"]}</div>
+        science_block(explanation + "\n\n" + s["science"], s["ref"])
+
+        if strategy == "normal":
+            st.markdown("""
+            <div style='background:#1a1000;border:1px solid #3a2800;border-radius:6px;
+                        padding:14px 18px;margin:12px 0;font-size:0.88rem;color:#ccc;'>
+                <b style='color:#cc8800;'>Et avec la stratégie à charge cognitive ?</b><br>
+                Si vous aviez demandé à Thomas de raconter sa soirée à l'envers, les incohérences auraient été
+                immédiatement visibles. La mémoire d'un menteur s'effondre sous la pression d'une récupération non linéaire.
             </div>
-            <div style='background:#1a0000;border-radius:4px;padding:10px 14px;margin:10px 0;'>
-                <div style='color:#ff6666;font-size:0.72rem;font-weight:700;
-                            text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;'>
-                    ⚠ PIÈGE STÉRÉOTYPE
-                </div>
-                <div style='color:#ccc;font-size:0.88rem;'>{s["stereotype_trap"]}</div>
-            </div>
-            <div class='ref-tag'>📚 {s["ref"]}</div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Voir mon profil complet"):
+            st.session_state.phase = 4
+            st.rerun()
 
-        if idx < total - 1:
-            if st.button("Interrogatoire suivant →", use_container_width=True):
-                st.session_state.current += 1
-                st.session_state.answered = False
-                st.session_state.user_choice = None
-                st.rerun()
-        else:
-            if st.button("Voir mon profil de détecteur →", use_container_width=True):
-                st.session_state.screen = "result"
-                st.rerun()
 
-# ── HEADER ─────────────────────────────────────────────────────────────────────
+# ── PHASE 4 : RÉSULTATS ───────────────────────────────────────────────────────
+def phase4():
+    p1 = st.session_state.p1_score
+    p1_max = len(P1_QUESTIONS) * 3
+    p1_pct = p1 / p1_max
+
+    p2_bias = st.session_state.p2_bias_count
+    p2_total = len(P2_SCENARIOS)
+    p2_resistance = 1 - (p2_bias / p2_total)
+
+    p3_strategy = st.session_state.p3_strategy
+    p3_correct = st.session_state.p3_score == 1
+
+    global_score = (p1_pct + p2_resistance + (1 if p3_correct else 0.5)) / 3
+
+    if global_score >= 0.8:
+        profile = "Le Détecteur Calibré"
+        desc = "Vous combinez détachement émotionnel, résistance au biais de vérité et stratégie cognitive efficace. Ce profil correspond à ce que la recherche identifie comme les meilleurs détecteurs : non pas des individus insensibles, mais des individus qui régulent activement leur réactivité émotionnelle pour préserver leur lucidité analytique."
+    elif global_score >= 0.6:
+        profile = "L'Analyste Partiel"
+        desc = "Vous avez de bonnes bases analytiques mais certains biais émotionnels influencent encore vos jugements. Votre profil d'intelligence émotionnelle est développé, mais la régulation sous pression reste un axe de progression. La distinction entre IE-trait et IE-ability de Petrides et Furnham (2001) s'applique ici : vous vous percevez comme rationnel, mais votre performance réelle est encore modulée par vos réactions affectives."
+    elif global_score >= 0.4:
+        profile = "La Victime du Biais de Vérité"
+        desc = "Votre tendance à croire par défaut domine votre profil. C'est parfaitement adaptatif dans la vie quotidienne, comme le montre Levine (2014) avec sa Truth-Default Theory. Mais dans un contexte de détection, ce réglage par défaut vous coûte cher. Votre première piste d'amélioration serait de travailler la résistance au biais de vérité et le raisonnement analytique délibéré."
+    else:
+        profile = "L'Intuitif Émotionnel"
+        desc = "Votre jugement est fortement guidé par vos réactions affectives immédiates. Vous avez probablement une IE-trait élevée, c'est-à-dire que vous vous percevez comme émotionnellement intelligent, mais votre IE-ability dans des tâches de détection reste limitée par une régulation insuffisante. Les travaux de Duran et al. (2019) suggèrent que le détachement émotionnel, bien plus que la sensibilité, prédit la performance en détection."
+
+    st.markdown(f"""
+    <div style='text-align:center;padding:16px 0 8px;'>
+        <div style='color:#cc0000;font-size:0.7rem;font-weight:700;text-transform:uppercase;
+                    letter-spacing:2px;margin-bottom:10px;'>Votre profil de détecteur</div>
+        <div class='profile-name' style='font-family:Crimson Text,serif;font-size:2.2rem;color:#fff;'>{profile}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    p1_label = "Élevé" if p1_pct >= 0.67 else ("Modéré" if p1_pct >= 0.33 else "Faible")
+    p2_label = "Élevée" if p2_resistance >= 0.67 else ("Modérée" if p2_resistance >= 0.33 else "Faible")
+    p3_label = "Cognitive" if p3_strategy == "cognitive" else "Standard"
+
+    st.markdown(f"""
+    <div class='dim-row'>
+        <div class='dim-box'>
+            <div class='dim-label'>Détachement émotionnel</div>
+            <div class='dim-value'>{p1_label}</div>
+        </div>
+        <div class='dim-box'>
+            <div class='dim-label'>Résistance au biais de vérité</div>
+            <div class='dim-value'>{p2_label}</div>
+        </div>
+        <div class='dim-box'>
+            <div class='dim-label'>Stratégie d'interrogatoire</div>
+            <div class='dim-value'>{p3_label}</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div class='card-neutral' style='margin:20px 0;'>
+        <div style='color:#cc0000;font-size:0.72rem;font-weight:700;text-transform:uppercase;
+                    letter-spacing:1px;margin-bottom:12px;'>Analyse de votre profil</div>
+        <div style='color:#ccc;font-size:0.92rem;line-height:1.75;'>{desc}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class='science-block'>
+        <div class='science-label'>Ce que la recherche retient</div>
+        <div style='color:#ccc;line-height:1.8;'>
+        La capacité à détecter le mensonge n'est pas une compétence unitaire. C'est un profil multidimensionnel qui articule
+        trois niveaux interdépendants : le détachement émotionnel comme substrat de personnalité, l'intelligence émotionnelle
+        comme capacité intégratrice, et la flexibilité cognitive comme outil d'analyse. Ces dimensions interagissent : un individu
+        cognitivement flexible mais émotionnellement réactif sera pénalisé par ses propres biais affectifs, tandis qu'un individu
+        détaché mais rigide ne saura pas intégrer des informations contradictoires.
+        </div>
+        <div class='ref'>Bond & DePaulo (2006) · Duran et al. (2019) · Levine (2014) · Vrij (2008) · Mayer & Salovey (1997)</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("Recommencer"):
+        for k, v in defaults.items():
+            st.session_state[k] = v
+        st.rerun()
+
+
+# ── HEADER ────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div style='text-align:center;padding:20px 0 10px;'>
-    <div style='color:#cc0000;font-size:0.7rem;font-weight:700;text-transform:uppercase;
-                letter-spacing:3px;margin-bottom:8px;'>DHAOUI Nour</div>
-    <h1 style='margin:0;font-size:2.2rem;'>Détecteur de Mensonge</h1>
-    <div style='color:#555;font-size:0.85rem;margin-top:8px;font-style:italic;'>
-        Vous jouez le rôle de l'inspecteur. Chaque décision révèle vos biais.
+<div style='text-align:center;padding:24px 0 16px;'>
+    <div style='color:#cc0000;font-size:0.68rem;font-weight:700;text-transform:uppercase;
+                letter-spacing:3px;margin-bottom:10px;'>Psychologie cognitive</div>
+    <h1 style='margin:0;'>Quel détecteur êtes-vous ?</h1>
+    <div style='color:#444;font-size:0.85rem;margin-top:10px;font-style:italic;'>
+        Trois phases pour mesurer votre personnalité, vos biais cognitifs et votre intelligence émotionnelle.
     </div>
 </div>
-<hr style='border:none;border-top:1px solid #1e1e1e;margin:16px 0 24px;'>
+<hr>
 """, unsafe_allow_html=True)
 
 # ── ROUTER ────────────────────────────────────────────────────────────────────
-if st.session_state.screen == "result":
-    show_result()
-else:
-    show_game()
+phase = st.session_state.phase
+if phase == 1:
+    phase1()
+elif phase == 2:
+    phase2()
+elif phase == 3:
+    phase3()
+elif phase == 4:
+    phase4()
