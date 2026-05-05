@@ -261,7 +261,7 @@ P1_QUESTIONS = [
         ],
         "scores": [0, 1, 2, 3],
         "science": "Duran et al. (2020) montrent que les énoncés chargés émotionnellement bénéficient d'un préjugé favorable indépendamment de leur véracité. L'enthousiasme et l'émotion sont des vecteurs puissants de persuasion qui contournent notre vigilance analytique.",
-        "ref": "Duran et al. (2020) · ten Brinke et al. (2012)",
+        "ref": "Duran et al. (2020) ",
     },
     {
         "q": "Comment décririez-vous votre façon de prendre des décisions dans des situations sociales ambiguës ?",
@@ -272,8 +272,8 @@ P1_QUESTIONS = [
             "J'analyse systématiquement, l'intuition seule ne me suffit jamais",
         ],
         "scores": [0, 1, 2, 3],
-        "science": "Reinhard et al. (2013) montrent que le raisonnement analytique améliore la détection quand il s'agit de chercher des incohérences. Mais l'avantage n'est pas universel : ten Brinke et al. (2012) montrent que certains jugements intuitifs très rapides peuvent être plus précis que des jugements délibérés. L'IE-ability articule les deux modes.",
-        "ref": "Reinhard et al. (2013) · ten Brinke et al. (2012)",
+        "science": "Reinhard et al. (2013) montrent que le raisonnement analytique améliore la détection quand il s'agit de chercher des incohérences. Mais l'avantage n'est pas universel : certains jugements intuitifs très rapides peuvent être plus précis que des jugements délibérés. L'IE-ability articule les deux modes.",
+        "ref": "Reinhard et al. (2013) ",
     },
 ]
 
@@ -335,7 +335,7 @@ P3_SUSPECT = {
     "normal_explanation": "Avec des questions standard, Thomas fournit des réponses vagues mais cohérentes en apparence. Rien ne permet de conclure formellement. C'est le problème central de la détection classique : sans pression cognitive, les menteurs peuvent maintenir un récit plausible.",
     "cognitive_explanation": "Quand vous demandez à Thomas de raconter les événements à l'envers, son récit s'effondre. Les incohérences apparaissent, les hésitations se multiplient, il se contredit sur des détails qu'un innocent se rappellerait facilement. Vrij (2008) démontre que cette technique augmente la charge cognitive du menteur au-delà de ses capacités de contrôle.",
     "science": "Mentir mobilise simultanément plusieurs ressources exécutives : construire un récit fictif, le maintenir cohérent, surveiller sa propre présentation et anticiper les réactions de l'interlocuteur. Raconter à l'envers ajoute une contrainte supplémentaire qui dépasse les capacités du menteur. Un innocent, lui, puise dans sa mémoire épisodique réelle et n'est pas déstabilisé par l'ordre de récupération.",
-    "ref": "Vrij (2008) · Hartwig & Bond (2011) · Article 2015",
+    "ref": "Vrij (2008) · Hartwig & Bond (2011) · Vrij (2015)",
 }
 
 
